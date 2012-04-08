@@ -14,20 +14,17 @@
         // set link_home to trigger goHome on click
         document.getElementById('link_home').onclick = goHome;
 
-        // get project list from config json
-        var projects = config.projects;
-
         // loop through project list and append links to nav
-        projects.forEach(function(project, i) {
+        config.projects.forEach(function(project, i) {
             // create project link
             var projectLink = document.createElement('a');
             projectLink.href = "#" + project.link_id;
             projectLink.innerHTML = project.name;
             // create click eventlistener for projectLink
             projectLink.onclick = function() {
-                // fade out content onClick
+                // fade content out content onClick
                 $(content).fadeOut(250, function() {
-                    // hide the content div to confirm it's invisible
+                    // hide the content div just to confirm it's invisible
                     $(content).hide();
                     // empty the content div
                     $(content).empty();
@@ -46,7 +43,7 @@
             nav.appendChild(projectLI);
         });
 
-        // first action is home
+        // after everything is set up, go home
         goHome();
     }
 
@@ -57,6 +54,7 @@
         });
         return false;
     }
+
 
     function embedProject(project, callback) {
         switch(project.type) {
@@ -69,17 +67,17 @@
 
         processing : function(project, doneEmbedding) {
 
-            // assemble template
-            var t = [
+            // assemble content HTML
+            content.innerHTML = [
                 '<h1>' + project.name + '</h1>',
-                '<canvas id="' + project.link_id + '"width="' + project.sketch_width + '" height="' + project.sketch_height + '"></canvas>',
+                '<canvas id="' + project.link_id + '"width="' + project.width + '" height="' + project.height + '"></canvas>',
                 '<p>' + project.desc + '</p>',
                 '<pre class="code prettyprint" style="display: none;"></pre>',
-                '<input id="codeToggle" type="button" value="View Source">'
+                '<input id="codeToggle" type="button" value="View Source" />'
             ].join('');
-            content.innerHTML = t;
 
-            var canvas = $(content).find('canvas')[0]; // we use [0] to grab the first result of the jquery find() command
+            // because the jquery find() command returns an array, we use [0] to grab the first element
+            var canvas = $(content).find('canvas')[0];
             var codePre = $(content).find('pre')[0];
             var codeToggle = $(content).find('#codeToggle')[0];
             codeToggle.onclick = function() {

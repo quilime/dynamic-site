@@ -1,22 +1,22 @@
 {
     "projects" : [
             {
-                "type"    : "processing",
-                "sketch_width"   : 300,
-                "sketch_height"  : 300,
+                "type" : "processing",
+                "width" : 300,
+                "height" : 300,
                 "src" : "pde/eyes.pde",
-                "name"    : "Eyes Follow",
-                "desc" : "Eyes that follow a point.",
-                "link_id" : "eyes"
+                "link_id" : "eyes",
+                "name" : "Eyes Follow",
+                "desc" : "Eyes that follow a point."
             },
             {
-                "type"    : "processing",
-                "sketch_width"   : 500,
-                "sketch_height"  : 300,
+                "type" : "processing",
+                "width" : 500,
+                "sketch_height" : 300,
                 "src" : "pde/waves.pde",
-                "name"    : "Particle Waves",
-                "desc" : "Use up/down, left/right arrow keys to adjust the particle/wave field",
-                "link_id" : "waves"
+                "link_id" : "waves",
+                "name" : "Particle Waves",
+                "desc" : "Use up/down, left/right arrow keys to adjust the particle/wave field"
             }
         ]
 }
