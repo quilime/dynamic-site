@@ -14,12 +14,12 @@
         // set link_home to trigger goHome on click
         document.getElementById('link_home').onclick = goHome;
 
-        // loop through project list and append links to nav
-        config.projects.forEach(function(project, i) {
+        // loop through content list and append links to nav
+        config.content.forEach(function(project, i) {
             // create project link
             var projectLink = document.createElement('a');
             projectLink.href = "#" + project.link_id;
-            projectLink.innerHTML = project.name;
+            projectLink.innerHTML = project.title;
             // create click eventlistener for projectLink
             projectLink.onclick = function() {
                 // fade content out content onClick
@@ -56,22 +56,32 @@
     }
 
 
-    function embedProject(project, callback) {
-        switch(project.type) {
-            case "processing" : Template.processing(project, callback);
+    function embedProject(projectContent, callback) {
+        switch(projectContent.type) {
+            case "page" : Template.page(projectContent, callback); break;
+            case "processing" : Template.processing(projectContent, callback); break;
         }
     }
 
 
     var Template = {
 
-        processing : function(project, doneEmbedding) {
+        page : function (projectContent, doneEmbedding) {
+            // assemble content HTML
+            content.innerHTML = [
+                '<h1>' + projectContent.title + '</h1>',
+                '<p>' + projectContent.desc + '</p>',
+            ].join('');
+            doneEmbedding();
+        },
+
+        processing : function(projectContent, doneEmbedding) {
 
             // assemble content HTML
             content.innerHTML = [
-                '<h1>' + project.name + '</h1>',
-                '<canvas id="' + project.link_id + '"width="' + project.width + '" height="' + project.height + '"></canvas>',
-                '<p>' + project.desc + '</p>',
+                '<h1>' + projectContent.title + '</h1>',
+                '<canvas id="' + projectContent.link_id + '"width="' + projectContent.width + '" height="' + projectContent.height + '"></canvas>',
+                '<p>' + projectContent.desc + '</p>',
                 '<pre class="code prettyprint" style="display: none;"></pre>',
                 '<input id="codeToggle" type="button" value="View Source" />'
             ].join('');
@@ -88,7 +98,7 @@
             // get project source code
             // for use in generate a new processing sketch on the canvas
             // as well as populate code <pre>
-            $.get(project.src, {}, function(code) {
+            $.get(projectContent.src, {}, function(code) {
                 var p = new Processing(canvas, code);
                 // uncomment this to require clicking on the canvas to start the sketch
                 // p.noLoop();
