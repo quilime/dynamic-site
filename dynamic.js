@@ -33,7 +33,7 @@
                     $(content).empty();
                     // embed the project
                     embedProject(project, function() {
-                        // callback to fade in content when embedding is done
+                        // callback fades in content when done embedding
                         $(content).fadeIn(250);
                     });
                 });
@@ -64,45 +64,32 @@
         }
     }
 
+
     var Template = {
+
         processing : function(project, doneEmbedding) {
-            // create a <h1> with the project name
-            var headline = document.createElement('h1');
-            headline.innerHTML = project.name;
 
-            // create a new <canvas> for our processing sketch
-            var canvas = document.createElement('canvas');
-            canvas.setAttribute('id', project.link_id);
-            canvas.setAttribute('width',  project.sketch_width);
-            canvas.setAttribute('height', project.sketch_height);
+            // assemble template
+            var t = [
+                '<h1>' + project.name + '</h1>',
+                '<canvas id="' + project.link_id + '"width="' + project.sketch_width + '" height="' + project.sketch_height + '"></canvas>',
+                '<p>' + project.desc + '</p>',
+                '<pre class="code prettyprint" style="display: none;"></pre>',
+                '<input id="codeToggle" type="button" value="View Source">'
+            ].join('');
+            content.innerHTML = t;
 
-            // create description <p>
-            var desc = document.createElement('p');
-            desc.innerHTML = project.desc;
-
-            // source code <pre>
-            var codePre = document.createElement('pre');
-            codePre.style.display = 'none';
-            codePre.setAttribute("class", "code prettyprint");
-
-            // toggle source button
-            var codeToggle = document.createElement("input");
-            canvas.setAttribute("id", "codeToggle");
-            codeToggle.type = "button";
-            codeToggle.value = "View Source";
-            codeToggle.onclick = function(e) {
+            var canvas = $(content).find('canvas')[0]; // we use [0] to grab the first result of the jquery find() command
+            var codePre = $(content).find('pre')[0];
+            var codeToggle = $(content).find('#codeToggle')[0];
+            codeToggle.onclick = function() {
                 codeToggle.value = codePre.style.display === 'none' ? "Hide Source" : "View Source";
                 $(codePre).fadeToggle();
             }
 
-            // assemble project layout
-            content.appendChild(headline);
-            content.appendChild(canvas);
-            content.appendChild(desc);
-            content.appendChild(codePre);
-            content.appendChild(codeToggle);
-
-            // get project source code and use it to generate a new processing sketch on the canvas
+            // get project source code
+            // for use in generate a new processing sketch on the canvas
+            // as well as populate code <pre>
             $.get(project.src, {}, function(code) {
                 var p = new Processing(canvas, code);
                 // uncomment this to require clicking on the canvas to start the sketch
