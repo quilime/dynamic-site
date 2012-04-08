@@ -15,7 +15,7 @@
                 "sketch_height"  : 300,
                 "src" : "pde/waves.pde",
                 "name"    : "Particle Waves",
-                "desc" : "Use up/down, left/right arrow keys to adjust wave field",
+                "desc" : "Use up/down, left/right arrow keys to adjust the particle/wave field",
                 "link_id" : "waves"
             }
         ]
