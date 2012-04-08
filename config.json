@@ -1,0 +1,22 @@
+{
+    "projects" : [
+            {
+                "type"    : "processing",
+                "sketch_width"   : 300,
+                "sketch_height"  : 300,
+                "src" : "pde/eyes.pde",
+                "name"    : "Eyes Follow",
+                "desc" : "Eyes that follow a point.",
+                "link_id" : "eyes"
+            },
+            {
+                "type"    : "processing",
+                "sketch_width"   : 500,
+                "sketch_height"  : 300,
+                "src" : "pde/waves.pde",
+                "name"    : "Particle Waves",
+                "desc" : "Use up/down, left/right arrow keys to adjust wave field",
+                "link_id" : "waves"
+            }
+        ]
+}
