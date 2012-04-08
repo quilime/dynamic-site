@@ -1,128 +1,132 @@
-!(function() {
+!(function(window) {
 
-	// init
-	$(document).ready(function() {
-		$.get('config.json', function(decoded_json){
-			init(decoded_json);
-		});
-	});
-
-	var config;
+    var config;
     var nav, body, content;
 
-	function init(config_json) {
+    var init = function(config_json) {
 
-		// set elements for global use
-		config = config_json;
-    	nav = document.getElementById('nav');
-    	body = document.body;
-    	content = document.getElementById('content');
+        // set elements for global use
+        config = config_json;
+        nav = document.getElementById('nav');
+        body = document.body;
+        content = document.getElementById('content');
 
-		// set link_home to trigger goHome on click
-		document.getElementById('link_home').onclick = goHome;
+        // set link_home to trigger goHome on click
+        document.getElementById('link_home').onclick = goHome;
 
-		// get project list from config json
-		var projects = config.projects;
+        // get project list from config json
+        var projects = config.projects;
 
-		// loop through project list and append links to nav
-		projects.forEach(function(project, i) {
-			// create project link
-			var projectLink = document.createElement('a');
-			projectLink.innerHTML = project.name;
-			projectLink.setAttribute('href', '#' + project.link_id);
-			// create list element
-			projectLI = document.createElement('li');
-			projectLI.appendChild(projectLink);
-			// append list element to nav
-			nav.appendChild(projectLI);
-			// set click action
-			projectLink.onclick = function() {
-				// fade out content onClick
-				$(content).fadeOut(250, function() {
-					// hide the content div to confirm it's invisible
-					$(content).hide();
-					// empty the content div
-					$(content).empty();
-					// embed our project
-					embedProject(project, function() {
-						// callback to fade in content when done embedding
-						$(content).fadeIn(250);
-					});
-				});
-				return false;
-			}
-		});
+        // loop through project list and append links to nav
+        projects.forEach(function(project, i) {
+            // create project link
+            var projectLink = document.createElement('a');
+            projectLink.href = "#" + project.link_id;
+            projectLink.innerHTML = project.name;
+            // create click eventlistener for projectLink
+            projectLink.onclick = function() {
+                // fade out content onClick
+                $(content).fadeOut(250, function() {
+                    // hide the content div to confirm it's invisible
+                    $(content).hide();
+                    // empty the content div
+                    $(content).empty();
+                    // embed the project
+                    embedProject(project, function() {
+                        // callback to fade in content when embedding is done
+                        $(content).fadeIn(250);
+                    });
+                });
+                return false;
+            };
+            // create list element
+            projectLI = document.createElement('li');
+            projectLI.appendChild(projectLink);
+            // append list element to nav
+            nav.appendChild(projectLI);
+        });
 
-		// first action is home
-		goHome();
-	}
-
-
-	function goHome() {
-		$(content).fadeOut(250, function() {
-			$(content).empty();
-		});
-		return false;
-	}
+        // first action is home
+        goHome();
+    }
 
 
-	function embedProject(project, callback) {
+    function goHome() {
+        $(content).fadeOut(250, function() {
+            $(content).empty();
+        });
+        return false;
+    }
 
-		switch(project.type) {
-			case "processing" :
+    function embedProject(project, callback) {
+        switch(project.type) {
+            case "processing" : Template.processing(project, callback);
+        }
+    }
 
-				// create a <h1> with the project name
-				var headline = document.createElement('h1');
-				headline.innerHTML = project.name;
+    var Template = {
+        processing : function(project, doneEmbedding) {
+            // create a <h1> with the project name
 
-				// create a new <canvas> for our processing sketch
-				var canvas = document.createElement('canvas');
-				canvas.setAttribute('id', project.link_id);
-				canvas.setAttribute('width',  project.sketch_width);
-				canvas.setAttribute('height', project.sketch_height);
+            var html = [
+                '<h1>' + + '</h1>'
+            ];
 
-				// create description <p>
-				var desc = document.createElement('p');
-				desc.innerHTML = project.desc;
+            var headline = document.createElement('h1');
+            headline.innerHTML = project.name;
 
-				// source code <pre>
-				var codePre = document.createElement('pre');
-				codePre.style.display = 'none';
-				codePre.setAttribute("class", "code prettyprint");
+            // create a new <canvas> for our processing sketch
+            var canvas = document.createElement('canvas');
+            canvas.setAttribute('id', project.link_id);
+            canvas.setAttribute('width',  project.sketch_width);
+            canvas.setAttribute('height', project.sketch_height);
 
-				// toggle source button
-				var codeToggle = document.createElement("input");
-				canvas.setAttribute("id", "codeToggle");
-				codeToggle.type = "button";
-				codeToggle.value = "View Source";
-				codeToggle.onclick = function(e) {
-					codeToggle.value = codePre.style.display === 'none' ? "Hide Source" : "View Source";
-					$(codePre).fadeToggle();
-				}
+            // create description <p>
+            var desc = document.createElement('p');
+            desc.innerHTML = project.desc;
 
-				// assemble project layout
-				content.appendChild(headline);
-				content.appendChild(canvas);
-				content.appendChild(desc);
-				content.appendChild(codePre);
-				content.appendChild(codeToggle);
+            // source code <pre>
+            var codePre = document.createElement('pre');
+            codePre.style.display = 'none';
+            codePre.setAttribute("class", "code prettyprint");
 
-				// get project source code and use it to generate a new processing sketch on the canvas
-				$.get(project.src, {}, function(code) {
-					var p = new Processing(canvas, code);
-					/*
-					// uncomment this to require clicking on the canvas to start the sketch
-					p.noLoop();
-					canvas.onclick = function() {
-						canvas.onclick = null;
-						p.loop();
-					}
-					*/
-					codePre.innerHTML = prettyPrintOne(code);
-					callback();
-				}, 'html' );
-		}
-	}
+            // toggle source button
+            var codeToggle = document.createElement("input");
+            canvas.setAttribute("id", "codeToggle");
+            codeToggle.type = "button";
+            codeToggle.value = "View Source";
+            codeToggle.onclick = function(e) {
+                codeToggle.value = codePre.style.display === 'none' ? "Hide Source" : "View Source";
+                $(codePre).fadeToggle();
+            }
 
-})();
+            // assemble project layout
+            content.appendChild(headline);
+            content.appendChild(canvas);
+            content.appendChild(desc);
+            content.appendChild(codePre);
+            content.appendChild(codeToggle);
 
+            // get project source code and use it to generate a new processing sketch on the canvas
+            $.get(project.src, {}, function(code) {
+                var p = new Processing(canvas, code);
+                // uncomment this to require clicking on the canvas to start the sketch
+                // p.noLoop();
+                // canvas.onclick = function() {
+                //  canvas.onclick = null;
+                //  p.loop();
+                // }
+                codePre.innerHTML = prettyPrintOne(code);
+                doneEmbedding();
+            }, 'html' );
+        }
+    }
+
+    // init
+    $(document).ready(function() {
+        $.get('config.json', function(decoded_json){
+            init(decoded_json);
+        });
+    });
+
+})(this);
