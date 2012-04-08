@@ -67,11 +67,6 @@
     var Template = {
         processing : function(project, doneEmbedding) {
             // create a <h1> with the project name
-
-            var html = [
-                '<h1>' + + '</h1>'
-            ];
-
             var headline = document.createElement('h1');
             headline.innerHTML = project.name;
 
