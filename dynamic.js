@@ -105,7 +105,6 @@
 				content.appendChild(canvas);
 				content.appendChild(desc);
 				content.appendChild(codePre);
-				content.appendChild(rawSourceLink);
 				content.appendChild(codeToggle);
 
 				// get project source code and use it to generate a new processing sketch on the canvas
