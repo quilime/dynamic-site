@@ -11,7 +11,7 @@
                 "title" : "Eyes Follow",
                 "width" : 300,
                 "height" : 300,
-                "src" : "pde/eyes.pde",
+                "src" : "processing/eyes.pde",
                 "link_id" : "eyes",
                 "desc" : "Eyes that follow a point."
             },
@@ -20,7 +20,7 @@
                 "title" : "Particle Waves",
                 "width" : 500,
                 "sketch_height" : 300,
-                "src" : "pde/waves.pde",
+                "src" : "processing/waves.pde",
                 "link_id" : "waves",
                 "desc" : "Use &uarr; &darr; &rarr; &larr; keys to adjust the particle/wave field."
             }

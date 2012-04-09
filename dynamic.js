@@ -82,7 +82,7 @@
                 '<h1>' + projectContent.title + '</h1>',
                 '<canvas id="' + projectContent.link_id + '"width="' + projectContent.width + '" height="' + projectContent.height + '"></canvas>',
                 '<p>' + projectContent.desc + '</p>',
-                '<pre class="code prettyprint" style="display: none;"></pre>',
+                '<pre class="code prettyprint" style="display:none"></pre>',
                 '<input id="codeToggle" type="button" value="View Source" />'
             ].join('');
 
@@ -98,7 +98,10 @@
             // get project source code
             // for use in generate a new processing sketch on the canvas
             // as well as populate code <pre>
-            $.get(projectContent.src, {}, function(code) {
+            $.ajax({
+                url : projectContent.src,
+                contentType : "text"
+                }).done(function(code) {
                 var p = new Processing(canvas, code);
                 // uncomment this to require clicking on the canvas to start the sketch
                 // p.noLoop();
@@ -106,9 +109,10 @@
                 //  canvas.onclick = null;
                 //  p.loop();
                 // }
-                codePre.innerHTML = prettyPrintOne(code);
+                codePre.innerText = code;
+                prettyPrint();
                 doneEmbedding();
-            }, 'html' );
+            });
         }
     }
 
@@ -120,3 +124,4 @@
     });
 
 })(this);
+
