@@ -1,17 +1,11 @@
 {
     "content" : [
             {
-                "type" : "page",
-                "title" : "About",
-                "link_id" : "about",
-                "desc" : "About Page."
-            },
-            {
                 "type" : "processing",
                 "title" : "Eyes Follow",
                 "width" : 300,
                 "height" : 300,
-                "src" : "processing/eyes.pde",
+                "src" : "pde/eyes.pde",
                 "link_id" : "eyes",
                 "desc" : "Eyes that follow a point."
             },
@@ -20,7 +14,7 @@
                 "title" : "Particle Waves",
                 "width" : 500,
                 "sketch_height" : 300,
-                "src" : "processing/waves.pde",
+                "src" : "pde/waves.pde",
                 "link_id" : "waves",
                 "desc" : "Use &uarr; &darr; &rarr; &larr; keys to adjust the particle/wave field."
             }

@@ -95,7 +95,7 @@
                 $(codePre).fadeToggle();
             }
 
-            // get project source code
+            // get project source code via ajax
             // for use in generate a new processing sketch on the canvas
             // as well as populate code <pre>
             $.ajax({
@@ -109,7 +109,7 @@
                 //  canvas.onclick = null;
                 //  p.loop();
                 // }
-                codePre.innerText = code;
+                $(codePre).text(code);
                 prettyPrint();
                 doneEmbedding();
             });
