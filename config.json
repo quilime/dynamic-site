@@ -1,5 +1,13 @@
 {
+
     "content" : [
+    
+    		{
+    			"type" : "page",
+    			"title" : "about",
+    			"src" : "pages/about.html"
+    		},
+    
             {
                 "type" : "processing",
                 "title" : "Eyes Follow",
@@ -9,6 +17,19 @@
                 "link_id" : "eyes",
                 "desc" : "Eyes that follow a point."
             },
+
+			
+			{
+				"type" : "processing",
+				"title" : "Movement With Trig",
+				"width" : 300,
+				"height" : 300,
+				"src" : "pde/movement_with_trig.pde",
+				"link_id" : "mwt",
+				"desc" : "Some example movement with trig made in Processing."
+			},
+
+            
             {
                 "type" : "processing",
                 "title" : "Particle Waves",
@@ -18,5 +39,7 @@
                 "link_id" : "waves",
                 "desc" : "Use &uarr; &darr; &rarr; &larr; keys to adjust the particle/wave field."
             }
+            
         ]
+
 }
