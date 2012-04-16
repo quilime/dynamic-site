@@ -20,6 +20,7 @@
             var projectLink = document.createElement('a');
             projectLink.href = "#" + project.link_id;
             projectLink.innerHTML = project.title;
+
             // create click eventlistener for projectLink
             projectLink.onclick = function() {
                 // fade content out content onClick
