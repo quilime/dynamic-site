@@ -1,1 +1,2 @@
 Investigate issues with high cpu intensive sketches not getting deleted
+^It maybe be possible that it's the cache saved when using Google Chrome, try using Firefox.
